@@ -262,3 +262,16 @@ body.revealed .reveal-orb {
 .avatar-spot.pop-in {
   animation: popInAvatar 350ms ease forwards;
 }
+
+/* Remove tap highlight on mobile */
+.reveal-orb,
+.avatar-spot {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+/* Also remove focus outline when clicked/tapped (but keep keyboard focus visible) */
+.reveal-orb:focus,
+.avatar-spot:focus {
+  outline: none;
+}
