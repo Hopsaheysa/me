@@ -1,0 +1,264 @@
+:root {
+  --bg: #1C1A1A;
+  --text: #F5F5F4;
+  --muted: #A8A29E;
+  --border-dark: #57534E;
+  --border-light: #E7E5E4;
+  --accent: #94A98C;
+  --orb: #000;
+
+  --icon-size: 56px;
+  --avatar-size: 160px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  display: grid;
+  place-items: center;
+  overflow-x: hidden;
+}
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.avatar-spot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px) scale(0.98);
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 240ms ease, transform 240ms ease;
+  pointer-events: none;
+  cursor: pointer;
+  border: 6px solid var(--border-dark);
+}
+
+.avatar-spot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+body.revealed .avatar-spot {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.name {
+  margin: 0;
+  font-size: clamp(36px, 8vw, 64px);
+  font-weight: 600;
+  letter-spacing: .4px;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* --- Buttons --- */
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.icon-btn {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  border: 2px solid var(--border-dark);
+  background: transparent;
+  text-decoration: none;
+  color: var(--text);
+  transition:
+    transform 120ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+  outline: none;
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  border-color: var(--border-light);
+  background-color: rgba(231, 229, 228, 0.08);
+  transform: translateY(-2px);
+}
+
+.icon-btn:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 35%, transparent);
+}
+
+.icon-btn svg {
+  display: block;
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+
+.reveal-orb {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  border-radius: 50%;
+  border: none;
+  background: var(--orb);
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  outline-offset: 3px;
+  padding: 0;
+  transform: translate(0, 0) scale(1);
+  will-change: transform;
+}
+
+.reveal-orb:active {
+  transform: translate(0, 0) scale(0.96);
+}
+
+.reveal-orb:focus-visible {
+  outline: 2px solid var(--border-light);
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--accent) 40%, transparent),
+    0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+body.revealed .reveal-orb {
+  background: #111;
+}
+
+.reveal-orb .orb-img {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-image: url("me.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 240ms ease;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .avatar-spot,
+  .reveal-orb,
+  .reveal-orb .orb-img,
+  .icon-btn {
+    transition: none !important;
+  }
+}
+
+/* —— Symmetric pulse / pop-in animations —— */
+@keyframes pulseOutOrb {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes popInOrb {
+  0% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.reveal-orb.pulse-out {
+  animation: pulseOutOrb 350ms ease forwards;
+}
+
+.reveal-orb.pop-in {
+  animation: popInOrb 350ms ease forwards;
+}
+
+@keyframes pulseOutAvatar {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+
+  60% {
+    transform: translateX(-50%) scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes popInAvatar {
+  0% {
+    transform: translateX(-50%) scale(0.5);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.avatar-spot.pulse-out {
+  animation: pulseOutAvatar 350ms ease forwards;
+}
+
+.avatar-spot.pop-in {
+  animation: popInAvatar 350ms ease forwards;
+}
