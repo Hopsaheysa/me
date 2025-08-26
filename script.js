@@ -86,4 +86,16 @@
 
   window.addEventListener("load", positionAvatar);
   window.addEventListener("resize", positionAvatar);
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("contact-btn");
+  if (!btn) return;
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const user = "marek";
+      const domain = "stransky.dev";
+      window.location.href = `mailto:${user}@${domain}`;
+    });
+  });
 })();
